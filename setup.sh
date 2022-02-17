@@ -44,7 +44,7 @@ EOF
 echo "OK"
 
 echo -n "Setting Up Code Server For User 'devops': "
-mkdir -p /home/devops/.local/share/code-server/User
+/bin/su devops -c "mkdir -p /home/devops/.local/share/code-server/User"
 
 cat << EOF >> /home/devops/local/share/code-server/User/settings.json
 {
@@ -62,25 +62,26 @@ cat << EOF >> /home/devops/local/share/code-server/User/settings.json
     "ansible.ansible.useFullyQualifiedCollectionNames": true
 }
 EOF
+/bin/chown devops:wheel /home/devops/local/share/code-server/User/settings.json
 echo "OK"
 
 echo -n "Installing Required VisualStudio Code Plugins: "
 # Create "extensions" directory
-mkdir -v /home/devops/.local/share/code-server/extensions
-chown devops:devops /home/devops/.local/share/code-server/extensions
+/bin/su devops -c "mkdir -v /home/devops/.local/share/code-server/extensions"
+/bin/chown devops:devops /home/devops/.local/share/code-server/extensions
 
 # Download required vscode plugins
-wget https://github.com/ansible/workshops/raw/devel/files/bierner.markdown-preview-github-styles-0.1.6.vsix -P /tmp/
-wget https://github.com/ansible/workshops/raw/devel/files/hnw.vscode-auto-open-markdown-preview-0.0.4.vsix -P /tmp/
-wget https://github.com/ansible/workshops/raw/devel/files/redhat.ansible-0.4.5.vsix -P /tmp/
+/bin/su devops -c "wget https://github.com/ansible/workshops/raw/devel/files/bierner.markdown-preview-github-styles-0.1.6.vsix -P /tmp/"
+/bin/su devops -c "wget https://github.com/ansible/workshops/raw/devel/files/hnw.vscode-auto-open-markdown-preview-0.0.4.vsix -P /tmp/"
+/bin/su devops -c "wget https://github.com/ansible/workshops/raw/devel/files/redhat.ansible-0.4.5.vsix -P /tmp/"
 
 # Installing vscode plugins
-/bin/code-server --install-extension /tmp/bierner.markdown-preview-github-styles-0.1.6.vsix
-/bin/code-server --install-extension /tmp/hnw.vscode-auto-open-markdown-preview-0.0.4.vsix
-/bin/code-server --install-extension /tmp/redhat.ansible-0.4.5.vsix
+/bin/su devops -c "/bin/code-server --install-extension /tmp/bierner.markdown-preview-github-styles-0.1.6.vsix"
+/bin/su devops -c "/bin/code-server --install-extension /tmp/hnw.vscode-auto-open-markdown-preview-0.0.4.vsix"
+/bin/su devops -c "/bin/code-server --install-extension /tmp/redhat.ansible-0.4.5.vsix"
 
 # Clean up the downloaded plugins
-rm -rf /tmp/*.vsix
+/bin/su devops -c "rm -rf /tmp/*.vsix"
 echo "OK"
 
 echo -n "Starting Code Server: "
