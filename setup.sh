@@ -12,7 +12,10 @@ dnf install -y python38 git wget nano tree sshpass tmux gcc bind-utils emacs
 echo "OK"
 
 echo -n "Installing Code Server: "
-dnf install -y https://github.com/coder/code-server/releases/download/v4.0.2/code-server-4.0.2-amd64.rpm
+wget https://github.com/coder/code-server/releases/download/v4.0.2/code-server-4.0.2-amd64.rpm -P /tmp
+chmod 0440 /tmp/code-server-4.0.2-amd64.rpm
+dnf install -y /tmp/code-server-4.0.2-amd64.rpm
+rm -rf /tmp/code-server-4.0.2-amd64.rpm
 echo "OK"
 
 echo -n "Configuring Code Server Unit File: "
@@ -46,7 +49,7 @@ echo "OK"
 echo -n "Setting Up Code Server For User 'devops': "
 /bin/su devops -c "mkdir -p /home/devops/.local/share/code-server/User"
 
-tee -a /home/devops/local/share/code-server/User/settings.json << EOF
+tee -a /home/devops/.local/share/code-server/User/settings.json << EOF
 {
     "git.ignoreLegacyWarning": true,
     "terminal.integrated.experimentalRefreshOnResume": true,
