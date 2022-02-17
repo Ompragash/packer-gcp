@@ -66,7 +66,7 @@ tee -a /home/devops/.local/share/code-server/User/settings.json << EOF
 }
 EOF
 
-/bin/chown devops:wheel /home/devops/local/share/code-server/User/settings.json
+/bin/chown devops:wheel /home/devops/.local/share/code-server/User/settings.json
 echo "OK"
 
 echo -n "Installing Required VisualStudio Code Plugins: "
