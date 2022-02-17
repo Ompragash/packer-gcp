@@ -16,7 +16,7 @@ dnf install -y https://github.com/coder/code-server/releases/download/v4.0.2/cod
 echo "OK"
 
 echo -n "Configuring Code Server Unit File: "
-cat << EOF >> /etc/systemd/system/code-server.service
+tee -a /etc/systemd/system/code-server.service << EOF
 [Unit]
 Description=Code Server IDE
 After=network.target
@@ -46,7 +46,7 @@ echo "OK"
 echo -n "Setting Up Code Server For User 'devops': "
 /bin/su devops -c "mkdir -p /home/devops/.local/share/code-server/User"
 
-cat << EOF >> /home/devops/local/share/code-server/User/settings.json
+tee -a /home/devops/local/share/code-server/User/settings.json << EOF
 {
     "git.ignoreLegacyWarning": true,
     "terminal.integrated.experimentalRefreshOnResume": true,
@@ -62,6 +62,7 @@ cat << EOF >> /home/devops/local/share/code-server/User/settings.json
     "ansible.ansible.useFullyQualifiedCollectionNames": true
 }
 EOF
+
 /bin/chown devops:wheel /home/devops/local/share/code-server/User/settings.json
 echo "OK"
 
@@ -91,14 +92,14 @@ systemctl start code-server
 echo "OK"
 
 echo -n "Installing Nginx Web Server: "
-dnf install -y Nginx
+dnf install -y nginx
 echo "OK"
 
 # Update coder.json
 sed -i 's/rhel/devops/g' /home/devops/.local/share/code-server/coder.json
 
 echo -n "Adding Nginx Configuration to Support Code Server: "
-cat << EOF >> /etc/nginx/default.d/custom.conf
+tee -a /etc/nginx/default.d/custom.conf << EOF
 # Custom configs for code-server
       location /editor/ {
           proxy_pass http://127.0.0.1:8080/;
