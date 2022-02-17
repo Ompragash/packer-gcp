@@ -102,17 +102,7 @@ echo "OK"
 #sed -i 's/rhel/devops/g' /home/devops/.local/share/code-server/coder.json
 
 echo -n "Adding Nginx Configuration to Support Code Server: "
-tee -a /etc/nginx/default.d/custom.conf << EOF
-
-      location /editor/ {
-          proxy_pass http://127.0.0.1:8080/;
-          proxy_set_header Host $host;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection upgrade;
-          proxy_set_header Accept-Encoding gzip;
-          proxy_redirect off;
-      }
-EOF
+curl https://raw.githubusercontent.com/ansible/instruqt/devel/images/ansible/roles/code_server/templates/nginx.conf -o /etc/nginx/default.d/custom.conf
 echo "OK"
 
 echo -n "Starting Nginx Server: "
