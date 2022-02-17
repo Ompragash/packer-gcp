@@ -18,6 +18,10 @@ dnf install -y /tmp/code-server-4.0.2-amd64.rpm
 rm -rf /tmp/code-server-4.0.2-amd64.rpm
 echo "OK"
 
+echo -n "Installing Nginx Web Server: "
+dnf install -y nginx
+echo "OK"
+
 echo -n "Configuring Code Server Unit File: "
 tee -a /etc/systemd/system/code-server.service << EOF
 [Unit]
@@ -92,10 +96,6 @@ echo -n "Starting Code Server: "
 systemctl daemon-reload
 systemctl enable code-server
 systemctl start code-server
-echo "OK"
-
-echo -n "Installing Nginx Web Server: "
-dnf install -y nginx
 echo "OK"
 
 # Update coder.json
