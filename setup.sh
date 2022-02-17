@@ -99,11 +99,11 @@ dnf install -y nginx
 echo "OK"
 
 # Update coder.json
-sed -i 's/rhel/devops/g' /home/devops/.local/share/code-server/coder.json
+#sed -i 's/rhel/devops/g' /home/devops/.local/share/code-server/coder.json
 
 echo -n "Adding Nginx Configuration to Support Code Server: "
 tee -a /etc/nginx/default.d/custom.conf << EOF
-# Custom configs for code-server
+
       location /editor/ {
           proxy_pass http://127.0.0.1:8080/;
           proxy_set_header Host $host;
@@ -113,11 +113,10 @@ tee -a /etc/nginx/default.d/custom.conf << EOF
           proxy_redirect off;
       }
 EOF
-
-setsebool -P httpd_can_network_connect on
 echo "OK"
 
 echo -n "Starting Nginx Server: "
+setsebool -P httpd_can_network_connect on
 systemctl enable nginx
 systemctl start nginx
 echo "OK"
