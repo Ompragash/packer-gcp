@@ -3,7 +3,7 @@
 # Install and Configure Code Server.
 
 echo -n "Creating User: "
-/sbin/useradd useradd devops -p ansible
+/sbin/useradd devops -p ansible
 /sbin/usermod -aG wheel devops
 echo "OK"
 
