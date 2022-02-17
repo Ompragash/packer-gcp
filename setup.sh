@@ -12,7 +12,7 @@ dnf install -y python38 git wget nano tree sshpass tmux gcc bind-utils emacs
 echo "OK"
 
 echo -n "Installing Code Server: "
-dnf install https://github.com/coder/code-server/releases/download/v4.0.2/code-server-4.0.2-amd64.rpm
+dnf install -y https://github.com/coder/code-server/releases/download/v4.0.2/code-server-4.0.2-amd64.rpm
 echo "OK"
 
 echo -n "Configuring Code Server Unit File: "
